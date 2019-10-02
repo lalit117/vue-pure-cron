@@ -82,29 +82,37 @@ export default {
     },
     defaultLang: {
       type: String,
-      default: 'zh',
+      default: 'en',
     },
     showLangSwitch: {
       type: Boolean,
       default: true,
+    },
+    hideYear: {
+      type: Boolean,
+      default: false,
+    },
+    hideSeconds: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
     return {
-      curTab: 'second',
+      curTab: this.hideSeconds ? 'minute' : 'second',
       activeLang: this.defaultLang,
       langOptions: {
         en: { en: 'en', zh: '英' },
         zh: { en: 'zh', zh: '中' },
       },
       tabList: [
-        { prop: 'second', en: 'Second', zh: '秒' },
+        ...(!this.hideSeconds ? [{ prop: 'second', en: 'Second', zh: '秒' }] : []),
         { prop: 'minute', en: 'Minute', zh: '分钟' },
         { prop: 'hour', en: 'Hour', zh: '小时' },
         { prop: 'day', en: 'Day of M', zh: '日期' },
         { prop: 'month', en: 'Month', zh: '月份' },
         { prop: 'week', en: 'Day of W', zh: '星期' },
-        { prop: 'year', en: 'Year', zh: '年' },
+        ...(!this.hideYear ? [{ prop: 'year', en: 'Year', zh: '年' }] : []),
       ],
       cronResult: {
         second: '',
@@ -138,7 +146,10 @@ export default {
     },
     cronText() {
       const { cronResult } = this;
-      return `${cronResult.second || '*'} ${cronResult.minute || '*'} ${cronResult.hour || '*'} ${cronResult.day || '*'} ${cronResult.month || '*'} ${cronResult.week || '?'} ${cronResult.year || '*'}`;
+      let cronExp =  `${cronResult.minute || '*'} ${cronResult.hour || '*'} ${cronResult.day || '*'} ${cronResult.month || '*'} ${cronResult.week || '?'}`;
+      if (!this.hideSeconds) cronExp = `${cronResult.seconds || '*'} ` + cronExp;
+      if (!this.hideYear) cronExp = cronExp + ` ${cronResult.year || '*'}`;
+      return cronExp;
     },
     curComponent() {
       switch (this.curTab) {
