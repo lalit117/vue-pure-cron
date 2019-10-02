@@ -82,10 +82,11 @@
 <script>
 import SelectWrapper from '@/components/SelectWrapper.vue';
 import selectMixin from '@/components/selectMixin';
+import utilsMixin from '@/components/utilsMixin';
 
 export default {
   name: 'pure-cron-day-component',
-  mixins: [selectMixin],
+  mixins: [selectMixin, utilsMixin],
   components: {
     SelectWrapper,
   },

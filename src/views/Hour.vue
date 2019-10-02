@@ -44,10 +44,11 @@
 <script>
 import SelectWrapper from '@/components/SelectWrapper.vue';
 import selectMixin from '@/components/selectMixin';
+import utilsMixin from '@/components/utilsMixin';
 
 export default {
   name: 'pure-cron-hour-component',
-  mixins: [selectMixin],
+  mixins: [selectMixin, utilsMixin],
   components: {
     SelectWrapper,
   },
@@ -101,7 +102,7 @@ export default {
   },
   methods: {
   }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
